@@ -6,18 +6,12 @@ import Link from "next/link";
 import { FormEvent, useMemo, useRef, useState } from "react";
 import type { SuiteUser } from "@/lib/auth";
 import { categoryLabels, formatCount, formatDuration, type PublicVideo } from "@/lib/videos";
+import { SuiteLauncher, suiteLinks } from "./suite-launcher";
 
 type VideoAppProps = { configured: boolean; user: SuiteUser | null; initialVideos: PublicVideo[] };
 type UploadPhase = "idle" | "preparing" | "video" | "poster" | "saving" | "done" | "error";
 
 const categories = ["tutti", "societa", "cultura", "scienza", "lavoro", "formazione", "musica", "territorio"];
-const suiteLinks = [
-  { label: "Rizoma", href: "https://rizoma.tecnosocialismo.com", mark: "R" },
-  { label: "Iskra", href: "https://iskra.tecnosocialismo.com/chat", mark: "I" },
-  { label: "Spazio", href: "https://cloud.tecnosocialismo.com", mark: "S" },
-  { label: "Mail", href: "https://mail.tecnosocialismo.com", mark: "M" },
-];
-
 const editorialTracks = [
   { number: "01", title: "Voci dai territori", text: "Storie locali, lotte, esperienze e trasformazioni raccontate da chi le vive.", tone: "orange" },
   { number: "02", title: "Scienza comune", text: "Conoscenza accessibile, ricerca aperta e tecnologia discussa senza gerarchie.", tone: "violet" },
@@ -65,6 +59,7 @@ export function VideoApp({ configured, user, initialVideos }: VideoAppProps) {
         <Link className="service-name" href="/">VIDEO <i>ALFA</i></Link>
         <label className="global-search"><Icon name="search" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cerca video, persone, temi" />{query && <button onClick={() => setQuery("")} aria-label="Cancella ricerca"><Icon name="close" /></button>}</label>
         <button className="publish-top" onClick={requestUpload}><Icon name="upload" />Pubblica</button>
+        <SuiteLauncher />
         {user ? <a className="account" href="https://login.tecnosocialismo.com" title={user.email}><span>{initials(user.name)}</span><strong>{user.name}</strong></a> : <a className="login-link" href={loginUrl}>Accedi</a>}
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Apri menu"><Icon name="menu" /></button>
       </header>
@@ -75,7 +70,7 @@ export function VideoApp({ configured, user, initialVideos }: VideoAppProps) {
           {categories.map((item) => <button key={item} className={category === item ? "active" : ""} onClick={() => { setCategory(item); setMenuOpen(false); }}><span>{categoryIcon(item)}</span>{categoryLabels[item]}</button>)}
         </nav>
         <section className="principles"><p>COME FUNZIONA</p><div><b>01</b><span>Niente pubblicità</span></div><div><b>02</b><span>Ordine comprensibile</span></div><div><b>03</b><span>Dati non venduti</span></div></section>
-        <section className="suite"><p>LA SUITE</p>{suiteLinks.map((link) => <a key={link.label} href={link.href}><i>{link.mark}</i>{link.label}</a>)}</section>
+        <section className="suite"><p>LA SUITE</p>{suiteLinks.map((link) => <a className={link.current ? "current" : ""} aria-current={link.current ? "page" : undefined} key={link.label} href={link.href}><i>{link.mark}</i>{link.label}</a>)}</section>
       </aside>
       {menuOpen && <button className="mobile-scrim" onClick={() => setMenuOpen(false)} aria-label="Chiudi menu" />}
 

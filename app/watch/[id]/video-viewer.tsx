@@ -5,6 +5,7 @@ import { FormEvent, useRef, useState } from "react";
 import Link from "next/link";
 import type { SuiteUser } from "@/lib/auth";
 import { categoryLabels, formatCount, formatDuration, type PublicComment, type PublicVideo } from "@/lib/videos";
+import { SuiteLauncher } from "@/app/suite-launcher";
 
 export function VideoViewer({ video, related, initialComments, user, initiallyLiked }: { video: PublicVideo; related: PublicVideo[]; initialComments: PublicComment[]; user: SuiteUser | null; initiallyLiked: boolean }) {
   const [liked, setLiked] = useState(initiallyLiked);
@@ -47,7 +48,7 @@ export function VideoViewer({ video, related, initialComments, user, initiallyLi
   }
 
   return <main className="watch-shell">
-    <header className="watch-header"><a className="brand" href="https://tecnosocialismo.com"><span className="spark" /><span>TECNO<br />SOCIALISMO</span></a><Link className="service-name" href="/">VIDEO <i>ALFA</i></Link><label className="watch-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input placeholder="Cerca nella piattaforma" onKeyDown={(event) => { if (event.key === "Enter") window.location.href = `/?q=${encodeURIComponent(event.currentTarget.value)}`; }} /></label>{user ? <a className="account" href="https://login.tecnosocialismo.com"><span>{initials(user.name)}</span><strong>{user.name}</strong></a> : <a className="login-link" href={loginUrl}>Accedi</a>}</header>
+    <header className="watch-header"><a className="brand" href="https://tecnosocialismo.com"><span className="spark" /><span>TECNO<br />SOCIALISMO</span></a><Link className="service-name" href="/">VIDEO <i>ALFA</i></Link><label className="watch-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input placeholder="Cerca nella piattaforma" onKeyDown={(event) => { if (event.key === "Enter") window.location.href = `/?q=${encodeURIComponent(event.currentTarget.value)}`; }} /></label><SuiteLauncher />{user ? <a className="account" href="https://login.tecnosocialismo.com"><span>{initials(user.name)}</span><strong>{user.name}</strong></a> : <a className="login-link" href={loginUrl}>Accedi</a>}</header>
     <div className="watch-layout">
       <section className="watch-primary">
         <div className="player-frame"><video controls playsInline preload="metadata" poster={video.hasPoster ? `/api/videos/${video.id}/poster` : undefined} onPlay={registerView} src={`/api/videos/${video.id}/stream`} /></div>
