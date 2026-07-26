@@ -6,6 +6,7 @@ export const suiteLinks = [
   { label: "Mail", href: "https://mail.tecnosocialismo.com", mark: "M" },
   { label: "Video", href: "https://video.tecnosocialismo.com", mark: "V", current: true },
   { label: "Social", href: "https://social.tecnosocialismo.com", mark: "S" },
+  { label: "Messaggi", href: "https://messaggi.tecnosocialismo.com", mark: "G" },
   { label: "Account", href: "https://login.tecnosocialismo.com", mark: "A" },
 ];
 
