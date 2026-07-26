@@ -5,8 +5,8 @@ const MAX_VIDEO_SIZE = 2 * 1024 * 1024 * 1024;
 const MAX_POSTER_SIZE = 12 * 1024 * 1024;
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as HandleUploadBody;
   try {
+    const body = (await request.json()) as HandleUploadBody;
     const response = await handleUpload({
       body,
       request,
